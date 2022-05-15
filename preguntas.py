@@ -72,14 +72,14 @@ def pregunta_03():
     """
 
     # Lea el archivo `gm_2008_region.csv` y asignelo al DataFrame `df`
-    df = pd.read_csv("gm_2008_region.csv")
+    df = pd.read_csv("gm_2008_region.csv", sep = ',', header=0,)
 
     # Asigne a la variable los valores de la columna `fertility`
     
-    X_fertility = np.array(df['fertility']).reshape(-1,1)
+    X_fertility = df['fertility'].values.reshape(-1,1)
 
     # Asigne a la variable los valores de la columna `life`
-    y_life =  np.array(df['life']).reshape(-1,1)
+    y_life =  df['life'].values.reshape(-1,1)
 
     # Importe LinearRegression
    
@@ -102,9 +102,9 @@ def pregunta_03():
 
     # Imprima el R^2 del modelo con 4 decimales
 
-    print(reg.score(X_fertility, y_pred).round(4))
+    print(reg.score(X_fertility, y_life).round(4))
 
-pregunta_03()
+
 
 def pregunta_04():
     """
@@ -116,6 +116,8 @@ def pregunta_04():
     # Importe train_test_split
     # Importe mean_squared_error
     from sklearn.linear_model  import LinearRegression
+    from sklearn.model_selection import train_test_split
+    from sklearn.metrics import mean_squared_error
 
     # Lea el archivo `gm_2008_region.csv` y asignelo al DataFrame `df`
     df = pd.read_csv("gm_2008_region.csv")
@@ -142,7 +144,7 @@ def pregunta_04():
     linearRegression.fit(X_train, y_train)
 
     # Pronostique y_test usando X_test
-    y_pred = linearRegression.predict()
+    y_pred = linearRegression.predict(X_test)
     # Compute and print R^2 and RMSE
     print("R^2: {:6.4f}".format(linearRegression.score(X_test, y_test)))
     rmse = np.sqrt(mean_squared_error(y_test, y_pred))
